@@ -1,54 +1,67 @@
 import {test,expect} from '@playwright/test'
 
-test ("Put Methid Verification",async({request})=>{
-
-const putresp = await request.put("/booking/6",{
-    headers : {
-        Authorization : "Basic YWRtaW46cGFzc3dvcmQxMjM="
-    },
-
-     data : {
-     "firstname": "Joe",
-    "lastname": "root",
-    "totalprice": 700,
-    "depositpaid": true,
-    "bookingdates": {
+test("Put Method Verification", async ({ request }) => {
+  // Step 1: Create a booking first
+  const createResp = await request.post("/booking", {
+    data: {
+      "firstname": "Joe",
+      "lastname": "root",
+      "totalprice": 700,
+      "depositpaid": true,
+      "bookingdates": {
         "checkin": "2022-01-17",
         "checkout": "2025-07-05"
+      },
+      "additionalneeds": "Breakfast"
     }
-}})
-const resp3 = await putresp.json()
-console.log(resp3)
+  });
+  const created = await createResp.json();
+  const bookingId = created.bookingid;
 
-expect (putresp.status()).toBe(200)
-expect (putresp.statusText()).toBe("OK")
-expect (putresp.ok()).toBeTruthy()
-expect(await resp3).toMatchObject({
+  // Step 2: Update the booking
+  const putresp = await request.put(`/booking/${bookingId}`, {
+    headers: {
+      Authorization: "Basic YWRtaW46cGFzc3dvcmQxMjM="
+    },
+    data: {
+      "firstname": "Joe",
+      "lastname": "root",
+      "totalprice": 700,
+      "depositpaid": true,
+      "bookingdates": {
+        "checkin": "2022-01-17",
+        "checkout": "2025-07-05"
+      },
+      "additionalneeds": "Breakfast"
+    }
+  });
+
+  expect(putresp.status()).toBe(200);
+  expect(putresp.ok()).toBeTruthy();
+
+  const resp3 = await putresp.json();
+  expect(resp3).toMatchObject({
     "firstname": "Joe",
     "lastname": "root",
     "totalprice": 700,
     "depositpaid": true,
     "bookingdates": {
-        "checkin": "2022-01-17",
-        "checkout": "2025-07-05"}
-})
+      "checkin": "2022-01-17",
+      "checkout": "2025-07-05"
+    },
+    "additionalneeds": "Breakfast"
+  });
 
-   expect (await resp3.lastname).toEqual("root")
-
-   const respget = await request.get("https://restful-booker.herokuapp.com/booking/6")
-   console.log(await respget.json())
-   expect (await respget.json()).toMatchObject({
-    
-  firstname: 'Joe',
-  lastname: 'root',
-  totalprice: 700,
-  depositpaid: true,
-  bookingdates: { checkin: '2022-01-17', checkout: '2025-07-05' },
-  additionalneeds: 'Breakfast'
-
-   })
-
-})
-
-
-
+  // Step 3: Verify with GET
+  const respget = await request.get(`/booking/${bookingId}`);
+  expect(respget.status()).toBe(200);
+  const getBody = await respget.json();
+  expect(getBody).toMatchObject({
+    firstname: 'Joe',
+    lastname: 'root',
+    totalprice: 700,
+    depositpaid: true,
+    bookingdates: { checkin: '2022-01-17', checkout: '2025-07-05' },
+    additionalneeds: 'Breakfast'
+  });
+});
