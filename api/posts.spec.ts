@@ -1,6 +1,6 @@
 import { test, expect } from '../fixtures/api.fixture';
-import { newPost } from '../../src/data/testData';
-import type { Post } from '../../src/types/index';
+import { newPost } from '../src/data/testData';
+import type { Post } from '../src/types/index';
 
 test.describe('Posts API', () => {
   test('GET /posts returns a non-empty list @smoke', async ({ postsApi }) => {
