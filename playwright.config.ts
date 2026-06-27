@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export default defineConfig({
-  testDir: './tests',
+  testDir: './api',
   // Run tests in files in parallel
   fullyParallel: true,
   // Fail the build on CI if test.only is left in the source code
@@ -44,7 +44,7 @@ export default defineConfig({
   projects: [
     {
       name: 'api',
-      testDir: './tests/api',
+      testDir: './api',
     },
   ],
 });
