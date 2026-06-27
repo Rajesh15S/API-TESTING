@@ -1,4 +1,4 @@
-import type { CreatePostPayload } from '../types/index.js';
+import type { CreatePostPayload } from '../types/index';
 
 /**
  * Static / reusable test data. For dynamic data, generate it inside tests

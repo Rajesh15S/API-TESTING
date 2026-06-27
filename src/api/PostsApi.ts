@@ -1,6 +1,6 @@
 import type { APIResponse } from '@playwright/test';
-import { BaseApiClient } from './BaseApiClient.js';
-import type { CreatePostPayload } from '../types/index.js';
+import { BaseApiClient } from './BaseApiClient';
+import type { CreatePostPayload } from '../types/index';
 
 /**
  * Endpoint-specific client for the /posts resource.
