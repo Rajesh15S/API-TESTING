@@ -1,6 +1,6 @@
 import { test as base } from '@playwright/test';
-import { PostsApi } from '../../src/api/PostsApi.js';
-import { env } from '../../src/config/env.config.js';
+import { PostsApi } from '../src/api/PostsApi';
+import { env } from '../src/config/env.config';
 
 /**
  * Custom fixtures expose ready-to-use API clients to every test.
